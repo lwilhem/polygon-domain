@@ -8,7 +8,7 @@ export const web3Store = defineStore('web3', () => {
   const domain: Ref<string> = ref('')
   const record: Ref<string> = ref('')
   const tld = '.Mclub'
-  const CONTRACT_ADDRESS = '0x171cA8139317008f12b87Ed604c28573C8C97053'
+  const CONTRACT_ADDRESS = '0x2e0d8927043500122505157CA2CA0b3Aba917caf'
 
   async function checkForWallet() {
     const { ethereum } = window
