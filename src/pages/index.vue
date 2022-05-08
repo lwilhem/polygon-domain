@@ -11,6 +11,9 @@ const { account } = storeToRefs(cryptoStore)
     <button v-if="!account" class="bg-zinc-900 text-slate-200 p-2 my-5 w-256 rounded-2" @click="cryptoStore.connectWallet()">
       Connect
     </button>
+    <RouterLink v-else to="/domains" class="bg-zinc-900 text-slate-200 p-2 my-5 w-256 rounded-2">
+      Get Your Order !
+    </RouterLink>
   </section>
 </template>
 
