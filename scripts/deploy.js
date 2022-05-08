@@ -1,11 +1,24 @@
 const main = async () => {
-    // The first return is the deployer, the second is a random account
-    const [owner, randomPerson] = await hre.ethers.getSigners();
     const domainContractFactory = await hre.ethers.getContractFactory('Domains');
-    const domainContract = await domainContractFactory.deploy();
+    const domainContract = await domainContractFactory.deploy("Mclub");
     await domainContract.deployed();
+  
     console.log("Contract deployed to:", domainContract.address);
-    console.log("Contract deployed by:", owner.address);
+  
+    // CHANGE THIS DOMAIN TO SOMETHING ELSE! I don't want to see OpenSea full of bananas lol
+    let txn = await domainContract.register("karata",  {value: hre.ethers.utils.parseEther('0.1')});
+    await txn.wait();
+    console.log("Minted domain karata.Mclub");
+  
+    txn = await domainContract.setRecord("karata", "Am I a Mclub or a karata??");
+    await txn.wait();
+    console.log("Set record for karata.Mclub");
+  
+    const address = await domainContract.getAddress("karata");
+    console.log("Owner of domain karata:", address);
+  
+    const balance = await hre.ethers.provider.getBalance(domainContract.address);
+    console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
   }
   
   const runMain = async () => {
@@ -18,3 +31,4 @@ const main = async () => {
     }
   };
   
+  runMain();
