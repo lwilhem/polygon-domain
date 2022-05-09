@@ -50,6 +50,12 @@ export const web3Store = defineStore('web3', () => {
 
     ethereum.on('chainChanged', handleChainChanged)
 
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
+
+    console.log(contract.getAllNames())
+
     // Reload the page when they change networks
     function handleChainChanged(_chainId: any) {
       window.location.reload()
@@ -98,7 +104,7 @@ export const web3Store = defineStore('web3', () => {
         const receipt = await tx.wait()
         if (receipt.status === 1) {
           console.log(`Domain minted! https://mumbai.polygonscan.com/tx/${tx.hash}`)
-          tx = await contract.setRecord(domain, record)
+          tx = await contract.setRecord(domain.value, record.value)
           await tx.wait()
 
           console.log(`Record set! https://mumbai.polygonscan.com/tx/${tx.hash}`)
