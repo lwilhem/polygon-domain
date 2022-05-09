@@ -123,6 +123,8 @@ export const web3Store = defineStore('web3', () => {
 
           domain.value = ''
           record.value = ''
+
+          findAllDomains()
         }
         else {
           alert('Transaction failed! Please try again')

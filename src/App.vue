@@ -5,9 +5,9 @@ import { isDark } from '~/composables'
 const store = web3Store()
 
 useHead({
-  title: 'Vitesse',
+  title: 'On The Mints !',
   meta: [
-    { name: 'description', content: 'Opinionated Vite Starter Template' },
+    { name: 'description', content: 'ENS But cheaper and worse' },
     {
       name: 'theme-color',
       content: computed(() => isDark.value ? '#00aba9' : '#ffffff'),
@@ -17,6 +17,8 @@ useHead({
 
 onMounted(() => {
   store.checkForWallet()
+  if (store.network === 'Polygon Mumbai Testnet')
+    store.findAllDomains()
 })
 
 </script>

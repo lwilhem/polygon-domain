@@ -37,8 +37,10 @@ const { domain, record } = storeToRefs(store)
     </div>
   </section>
   <section class="flex flex-wrap toems-center justify-center">
-    <a v-for="data in store.mints" :key="data.id" class="bg-indigo-500 text-slate-200 dark:bg-red-500 dark:text-zinc-900 px-8 py-3 mx-6 rounded-3">
-      <span>{{ data.owner.slice(0,6) }}...{{ data.owner.slice(-4) }}</span>
+    <a v-for="data in store.mints" :key="data.id" class="bg-indigo-500 flex flex-col text-slate-200 dark:bg-red-500 dark:text-zinc-900 px-8 py-3 mx-6 rounded-3">
+      <span>Owner :{{ data.owner.slice(0,6) }}...{{ data.owner.slice(-4) }}</span>
+      <span>Record : {{ data.record }}</span>
+      <span> name: {{ data.name }}.Mclub</span>
     </a>
   </section>
 </template>
