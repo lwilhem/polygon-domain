@@ -1,8 +1,8 @@
 <script setup lang="ts">
-// https://github.com/vueuse/head
-// you can use this to manipulate the document head in any components,
-// they will be rendered correctly in the html results with vite-ssg
+import { web3Store } from './stores/crypto'
 import { isDark } from '~/composables'
+
+const store = web3Store()
 
 useHead({
   title: 'Vitesse',
@@ -14,6 +14,11 @@ useHead({
     },
   ],
 })
+
+onMounted(() => {
+  store.checkForWallet()
+})
+
 </script>
 
 <template>

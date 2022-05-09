@@ -13,6 +13,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.6.0",
     "@vueuse/core": "^8.3.1",
     "@vueuse/head": "^0.7.6",
     "dotenv": "^16.0.0",

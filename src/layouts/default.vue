@@ -1,5 +1,6 @@
 <template>
-  <main class="px-4 py-10 text-center text-gray-700 dark:text-gray-200">
+  <main class="text-center text-zinc-900 dark:text-slate-200">
+    <Header />
     <RouterView />
     <Footer />
     <div class="mt-5 mx-auto text-center opacity-25 text-sm">
