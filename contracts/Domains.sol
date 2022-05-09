@@ -15,6 +15,7 @@ contract Domains is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
+
   address payable public owner;
   string public tld;
 

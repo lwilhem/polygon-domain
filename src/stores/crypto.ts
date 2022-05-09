@@ -62,6 +62,18 @@ export const web3Store = defineStore('web3', () => {
     }
   }
 
+  async function withdraw() {
+    const { ethereum } = window
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
+
+      await contract.withdraw()
+    }
+  }
+
   async function connectWallet() {
     try {
       const { ethereum } = window
@@ -150,6 +162,7 @@ export const web3Store = defineStore('web3', () => {
         }))
 
         console.log('MINTS FETCHED ', mintRecords)
+        mints.value = mintRecords
         setLoader(false)
       }
     }
@@ -177,6 +190,7 @@ export const web3Store = defineStore('web3', () => {
 
     network,
     findAllDomains,
+    withdraw,
   }
 })
 
