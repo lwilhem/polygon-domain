@@ -2,15 +2,16 @@
 /* eslint-disable no-console */
 import type { Ref } from 'vue'
 import { ethers } from 'ethers'
-import contractABI from '../../artifacts/contracts/Domains.sol/Domains.json'
 import { networks } from '../utils/networks'
-const CONTRACT_ADDRESS = '0x2e0d8927043500122505157CA2CA0b3Aba917caf'
+import contractABI from '../../public/abi/Domains.json'
+const CONTRACT_ADDRESS = '0x3760638905780DabF7Ff8Cd16F1C5aF46ACb44F3'
 
 export const web3Store = defineStore('web3', () => {
   const account: Ref<string | null> = ref(null)
   const domain: Ref<string> = ref('')
   const record: Ref<string> = ref('')
   const network = ref('')
+  const loading = ref(false)
 
   interface mintList {
     id: any
@@ -79,6 +80,7 @@ export const web3Store = defineStore('web3', () => {
     if (name.length < 3)
       return alert('Domain must be at least 3 characters long')
 
+    setLoader(true)
     const price = name.length === 3 ? '0.5' : name.length === 4 ? '0.3' : '0.1'
     console.log('Minting domain', name, 'with price', price)
 
@@ -108,13 +110,16 @@ export const web3Store = defineStore('web3', () => {
           alert('Transaction failed! Please try again')
         }
       }
+      setLoader(false)
     }
     catch (error) {
+      setLoader(false)
       console.error('Mint', error)
     }
   }
 
   async function findAllDomains() {
+    setLoader(true)
     try {
       const { ethereum } = window
       if (ethereum) {
@@ -139,11 +144,18 @@ export const web3Store = defineStore('web3', () => {
         }))
 
         console.log('MINTS FETCHED ', mintRecords)
+        setLoader(false)
       }
     }
     catch (error) {
+      setLoader(false)
       console.log(error)
     }
+  }
+
+  function setLoader(value: boolean) {
+    console.log('setloader', value)
+    loading.value = value
   }
 
   return {
@@ -151,12 +163,12 @@ export const web3Store = defineStore('web3', () => {
     checkForWallet,
     connectWallet,
     mints,
-
+    setLoader,
     tld,
     domain,
     record,
     createDomain,
-
+    loading,
     network,
     findAllDomains,
   }
