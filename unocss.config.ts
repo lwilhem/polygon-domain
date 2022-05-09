@@ -20,6 +20,12 @@ export default defineConfig({
     presetIcons({
       scale: 1.2,
       warn: true,
+      collections: {
+        'carbon': () => import('@iconify-json/carbon/icons.json').then(i => i.default),
+        'mdi': () => import('@iconify-json/mdi/icons.json').then(i => i.default),
+        'crypto': () => import('@iconify-json/cryptocurrency/icons.json').then(i => i.default),
+        'heroicons-solid': () => import('@iconify-json/heroicons-solid/icons.json').then(i => i.default),
+      },
     }),
     presetTypography(),
     presetWebFonts({

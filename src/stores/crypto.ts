@@ -1,14 +1,27 @@
 /* eslint-disable no-alert */
+/* eslint-disable no-console */
 import type { Ref } from 'vue'
 import { ethers } from 'ethers'
-import contractAbi from '../../artifacts/contracts/Domains.sol/Domains.json'
-/* eslint-disable no-console */
+import contractABI from '../../artifacts/contracts/Domains.sol/Domains.json'
+import { networks } from '../utils/networks'
+const CONTRACT_ADDRESS = '0x2e0d8927043500122505157CA2CA0b3Aba917caf'
+
 export const web3Store = defineStore('web3', () => {
   const account: Ref<string | null> = ref(null)
   const domain: Ref<string> = ref('')
   const record: Ref<string> = ref('')
+  const network = ref('')
+
+  interface mintList {
+    id: any
+    name: any
+    record: any
+    owner: any
+  }
+
+  const mints: Ref<mintList[] | undefined> = ref()
+
   const tld = '.Mclub'
-  const CONTRACT_ADDRESS = '0x2e0d8927043500122505157CA2CA0b3Aba917caf'
 
   async function checkForWallet() {
     const { ethereum } = window
@@ -23,9 +36,22 @@ export const web3Store = defineStore('web3', () => {
       const accountList = accounts[0]
       console.log('Found an authorized account:', account)
       account.value = accountList
+
+      await findAllDomains()
     }
     else {
       console.log('No authorized account found')
+    }
+
+    const chainId = await ethereum.request({ method: 'eth_chainId' })
+    // eslint-disable-next-line no-unused-expressions
+    network.value = (networks[`${chainId}`])
+
+    ethereum.on('chainChanged', handleChainChanged)
+
+    // Reload the page when they change networks
+    function handleChainChanged(_chainId: any) {
+      window.location.reload()
     }
   }
 
@@ -62,7 +88,7 @@ export const web3Store = defineStore('web3', () => {
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi.abi, signer)
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
 
         console.log('Gas Ready...')
 
@@ -74,6 +100,9 @@ export const web3Store = defineStore('web3', () => {
           await tx.wait()
 
           console.log(`Record set! https://mumbai.polygonscan.com/tx/${tx.hash}`)
+
+          domain.value = ''
+          record.value = ''
         }
         else {
           alert('Transaction failed! Please try again')
@@ -85,14 +114,53 @@ export const web3Store = defineStore('web3', () => {
     }
   }
 
+  async function findAllDomains() {
+    try {
+      const { ethereum } = window
+      if (ethereum) {
+        // You know all this
+        const provider = new ethers.providers.Web3Provider(ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
+
+        // Get all the domain names from our contract
+        const names = await contract.getAllNames()
+
+        // For each name, get the record and the address
+        const mintRecords = await Promise.all(names.map(async (name) => {
+          const mintRecord = await contract.records(name)
+          const owner = await contract.domains(name)
+          return {
+            id: names.indexOf(name),
+            name,
+            record: mintRecord,
+            owner,
+          }
+        }))
+
+        console.log('MINTS FETCHED ', mintRecords)
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     account,
     checkForWallet,
     connectWallet,
+    mints,
 
     tld,
     domain,
     record,
     createDomain,
+
+    network,
+    findAllDomains,
   }
 })
+
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(web3Store, import.meta.hot))

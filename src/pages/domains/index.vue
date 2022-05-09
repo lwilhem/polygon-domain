@@ -36,6 +36,11 @@ const { domain, record } = storeToRefs(store)
       </button>
     </div>
   </section>
+  <div>
+    <p v-for="data in store.mints" :key="data.id">
+      {{ data }}
+    </p>
+  </div>
 </template>
 
 <route lang="yaml">
