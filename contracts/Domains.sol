@@ -15,6 +15,7 @@ contract Domains is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
+
   address payable public owner;
   string public tld;
 
@@ -39,9 +40,9 @@ contract Domains is ERC721URIStorage {
     uint len = StringUtils.strlen(name);
     require(len > 0);
     if (len == 3) {
-      return 5 * 10**17; // 5 MATIC = 5 000 000 000 000 000 000 (18 decimals). We're going with 0.5 Matic cause the faucets don't give a lot
+      return 5 * 10**17;
     } else if (len == 4) {
-      return 3 * 10**17; // To charge smaller amounts, reduce the decimals. This is 0.3
+      return 3 * 10**17;
     } else {
       return 1 * 10**17;
     }
@@ -54,9 +55,7 @@ contract Domains is ERC721URIStorage {
     uint256 _price = price(name);
     require(msg.value >= _price, "Not enough Matic paid");
     
-    // Combine the name passed into the function  with the TLD
     string memory _name = string(abi.encodePacked(name, ".", tld));
-    // Create the SVG (image) for the NFT with the name
     string memory finalSvg = string(abi.encodePacked(svgPartOne, _name, svgPartTwo));
     uint256 newRecordId = _tokenIds.current();
     uint256 length = StringUtils.strlen(name);
@@ -101,7 +100,6 @@ contract Domains is ERC721URIStorage {
   }
 
   function getAllNames() public view returns (string[] memory) {
-  console.log("Getting all names from contract");
   string[] memory allNames = new string[](_tokenIds.current());
   for (uint i = 0; i < _tokenIds.current(); i++) {
     allNames[i] = names[i];

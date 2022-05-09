@@ -36,11 +36,11 @@ const { domain, record } = storeToRefs(store)
       </button>
     </div>
   </section>
-  <div>
-    <p v-for="data in store.mints" :key="data.id">
-      {{ data }}
-    </p>
-  </div>
+  <section class="flex flex-wrap toems-center justify-center">
+    <a v-for="data in store.mints" :key="data.id" class="bg-indigo-500 text-slate-200 dark:bg-red-500 dark:text-zinc-900 px-8 py-3 mx-6 rounded-3">
+      <span>{{ data.owner.slice(0,6) }}...{{ data.owner.slice(-4) }}</span>
+    </a>
+  </section>
 </template>
 
 <route lang="yaml">

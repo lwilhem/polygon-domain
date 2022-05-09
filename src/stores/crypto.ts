@@ -3,7 +3,7 @@
 import type { Ref } from 'vue'
 import { ethers } from 'ethers'
 import { networks } from '../utils/networks'
-import contractABI from '../../public/abi/Domains.json'
+import contractABI from '../utils/abi/Domains.json'
 const CONTRACT_ADDRESS = '0x3760638905780DabF7Ff8Cd16F1C5aF46ACb44F3'
 
 export const web3Store = defineStore('web3', () => {
@@ -50,9 +50,27 @@ export const web3Store = defineStore('web3', () => {
 
     ethereum.on('chainChanged', handleChainChanged)
 
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
+
+    console.log(contract.getAllNames())
+
     // Reload the page when they change networks
     function handleChainChanged(_chainId: any) {
       window.location.reload()
+    }
+  }
+
+  async function withdraw() {
+    const { ethereum } = window
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
+
+      await contract.withdraw()
     }
   }
 
@@ -98,7 +116,7 @@ export const web3Store = defineStore('web3', () => {
         const receipt = await tx.wait()
         if (receipt.status === 1) {
           console.log(`Domain minted! https://mumbai.polygonscan.com/tx/${tx.hash}`)
-          tx = await contract.setRecord(domain, record)
+          tx = await contract.setRecord(domain.value, record.value)
           await tx.wait()
 
           console.log(`Record set! https://mumbai.polygonscan.com/tx/${tx.hash}`)
@@ -144,6 +162,7 @@ export const web3Store = defineStore('web3', () => {
         }))
 
         console.log('MINTS FETCHED ', mintRecords)
+        mints.value = mintRecords
         setLoader(false)
       }
     }
@@ -163,14 +182,15 @@ export const web3Store = defineStore('web3', () => {
     checkForWallet,
     connectWallet,
     mints,
-    setLoader,
+
     tld,
     domain,
     record,
     createDomain,
-    loading,
+
     network,
     findAllDomains,
+    withdraw,
   }
 })
 
