@@ -15,7 +15,7 @@ const toggleLocales = () => {
 <template>
   <header class="w-full h-16 flex items-center justify-between px-6">
     <RouterLink to="/" class="flex items-center justify-center">
-      <div class="i-mdi:glass-cocktail w-10 h-10" />
+      <div class="i-mdi:glass-cocktail w-10 h-10" dark:bg-red-500 />
       <h1 class="font-mono text-2xl">
         On The Mints !
       </h1>
@@ -36,7 +36,7 @@ const toggleLocales = () => {
       <a class="icon-btn mx-2" rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank" title="GitHub">
         <div i-carbon-logo-github /></a>
     </nav>
-    <div v-if="account" class="flex items-center justify-center bg-indigo-500 text-slate-200 px-4 py-2 rounded-3">
+    <div v-if="account" class="flex items-center dark:bg-red-500 justify-center bg-indigo-500 text-slate-200 px-4 py-2 rounded-3">
       <div class="i-cryptocurrency:matic" w-8 h-8 />
       <span class="px-2">{{ account.slice(0, 6) }}...{{ account.slice(-4) }}</span>
     </div>
