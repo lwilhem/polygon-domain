@@ -4,7 +4,6 @@ import type { Ref } from 'vue'
 import { ethers } from 'ethers'
 import { networks } from '../utils/networks'
 import contractABI from '../utils/abi/Domains.json'
-const CONTRACT_ADDRESS = '0xa83f7c55Df9AFA9e34aB2AC038e3c6D3BB9bD8C3'
 
 export const web3Store = defineStore('web3', () => {
   const account: Ref<string | null> = ref(null)
@@ -12,6 +11,7 @@ export const web3Store = defineStore('web3', () => {
   const record: Ref<string> = ref('')
   const network = ref('')
   const loading = ref(false)
+  const CONTRACT_ADDRESS = '0xa83f7c55Df9AFA9e34aB2AC038e3c6D3BB9bD8C3'
 
   interface mintList {
     id: any
@@ -60,18 +60,6 @@ export const web3Store = defineStore('web3', () => {
     // Reload the page when they change networks
     function handleChainChanged(_chainId: any) {
       window.location.reload()
-    }
-  }
-
-  async function withdraw() {
-    const { ethereum } = window
-
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
-
-      await contract.withdraw()
     }
   }
 
@@ -193,7 +181,7 @@ export const web3Store = defineStore('web3', () => {
 
     network,
     findAllDomains,
-    withdraw,
+    CONTRACT_ADDRESS,
   }
 })
 
