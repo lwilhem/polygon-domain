@@ -16,6 +16,6 @@ npx hardhat help
 # TO-DO LISTS
 
 - [ ] IPFS FOR NFT'S
-- [ ] Adress Display
+- [x] Adress Display
 - [ ] Edition COntract integration into client
 - [ ] Voting system 

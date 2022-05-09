@@ -41,6 +41,7 @@ const { domain, record } = storeToRefs(store)
       <h4 class="font-mono py-2">{{ mint.name }}{{ store.tld }}</h4>
       <p class="text-base prose py-2 prose-truegray font-sans dark:text-slate-200">{{ mint.record }}</p>
       <span class="py-2">{{ mint.owner.slice(0, 6) }}...{{ mint.owner.slice(-3) }}</span>
+      <div v-if="mint.owner === store.account" i-mdi:book-edit class="w-8 h-8" @click="store.updateDomain()" />
     </a>
   </section>
 </template>

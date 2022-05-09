@@ -168,6 +168,33 @@ export const web3Store = defineStore('web3', () => {
     loading.value = value
   }
 
+  const updateDomain = async () => {
+    if (!record || !domain)
+      return
+    setLoader(true)
+    console.log('Updating domain', domain, 'with record', record)
+    try {
+      const { ethereum } = window
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI.abi, signer)
+
+        const tx = await contract.setRecord(domain, record)
+        await tx.wait()
+        console.log(`Record set https://mumbai.polygonscan.com/tx/${tx.hash}`)
+
+        findAllDomains()
+        domain.value = ''
+        record.value = ''
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+    setLoader(false)
+  }
+
   return {
     account,
     checkForWallet,
@@ -178,6 +205,7 @@ export const web3Store = defineStore('web3', () => {
     domain,
     record,
     createDomain,
+    updateDomain,
 
     network,
     findAllDomains,
