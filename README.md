@@ -13,3 +13,9 @@ npx hardhat node
 node scripts/sample-script.js
 npx hardhat help
 ```
+# TO-DO LISTS
+
+- [ ] IPFS FOR NFT'S
+- [ ] Adress Display
+- [ ] Edition COntract integration into client
+- [ ] Voting system 
