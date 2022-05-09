@@ -163,12 +163,12 @@ export const web3Store = defineStore('web3', () => {
     checkForWallet,
     connectWallet,
     mints,
-    setLoader,
+
     tld,
     domain,
     record,
     createDomain,
-    loading,
+
     network,
     findAllDomains,
   }
