@@ -18,6 +18,7 @@ export const web3Store = defineStore('web3', () => {
     name: any
     record: any
     owner: any
+    hash?: any
   }
 
   const mints: Ref<mintList[] | undefined> = ref()
@@ -152,7 +153,7 @@ export const web3Store = defineStore('web3', () => {
         const names = await contract.getAllNames()
 
         // For each name, get the record and the address
-        const mintRecords = await Promise.all(names.map(async (name) => {
+        const mintRecords = await Promise.all(names.map(async (name: any) => {
           const mintRecord = await contract.records(name)
           const owner = await contract.domains(name)
           return {

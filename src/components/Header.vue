@@ -3,13 +3,6 @@ import { web3Store } from '../stores/crypto'
 import { toggleDark } from '~/composables'
 
 const { account } = web3Store()
-const { t, availableLocales, locale } = useI18n()
-
-const toggleLocales = () => {
-  // change to some real logic
-  const locales = availableLocales
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
-}
 </script>
 
 <template>
@@ -21,20 +14,17 @@ const toggleLocales = () => {
       </h1>
     </RouterLink>
     <nav text-xl class="flex items-center justify-center">
-      <button class="icon-btn mx-2 !outline-none" :title="t('button.toggle_dark')" @click="toggleDark()">
+      <button class="icon-btn mx-2 !outline-none" :title="('button.toggle_dark')" @click="toggleDark()">
         <div i="carbon-sun dark:carbon-moon" />
       </button>
 
-      <a class="icon-btn mx-2" :title="t('button.toggle_langs')" @click="toggleLocales">
-        <div i-carbon-language />
+      <a href="https://testnets.opensea.io/collection/the-mebar-thzjy3xqzi" class="icon-btn mx-2">
+        <div class="i-carbon:list" w-8 h-8 />
       </a>
 
-      <RouterLink class="icon-btn mx-2" to="/about" :title="t('button.about')">
-        <div i-carbon-dicom-overlay />
-      </RouterLink>
-
-      <a class="icon-btn mx-2" rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank" title="GitHub">
-        <div i-carbon-logo-github /></a>
+      <a class="icon-btn mx-2" rel="noreferrer" href="https://github.com/lwilhem/polygin-domain" target="_blank" title="GitHub">
+        <div i-carbon-logo-github />
+      </a>
     </nav>
     <div v-if="account" class="flex items-center dark:bg-red-500 justify-center bg-indigo-500 text-slate-200 px-4 py-2 rounded-3">
       <div class="i-cryptocurrency:matic" w-8 h-8 />
