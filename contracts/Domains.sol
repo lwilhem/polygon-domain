@@ -81,6 +81,7 @@ contract Domains is ERC721URIStorage {
     _setTokenURI(newRecordId, finalTokenUri);
     domains[name] = msg.sender;
 
+    names[newRecordId] = name;
     _tokenIds.increment();
   }
 

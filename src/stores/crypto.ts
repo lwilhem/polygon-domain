@@ -4,7 +4,7 @@ import type { Ref } from 'vue'
 import { ethers } from 'ethers'
 import { networks } from '../utils/networks'
 import contractABI from '../utils/abi/Domains.json'
-const CONTRACT_ADDRESS = '0x3760638905780DabF7Ff8Cd16F1C5aF46ACb44F3'
+const CONTRACT_ADDRESS = '0xa83f7c55Df9AFA9e34aB2AC038e3c6D3BB9bD8C3'
 
 export const web3Store = defineStore('web3', () => {
   const account: Ref<string | null> = ref(null)
